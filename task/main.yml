@@ -1,0 +1,15 @@
+---
+### TASKS
+## Instalação do Zabbix Server 5 no Debian 10 Buster
+## Aplicação de dependências para o Zabbix v5:
+# Nginx servidor web
+# PHP com extensões requeridas
+# MariaDB/MySQL servidor de banco de dados.
+
+- name: "hosts"
+  hosts: VMs
+  become: true
+  tasks:
+  - include: install_zabbix_v5.yml
+    tags: install_zabbix_v5
+...

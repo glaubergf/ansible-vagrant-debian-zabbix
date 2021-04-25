@@ -1,0 +1,247 @@
+---
+## INSTALAÇÃO DO ZABBIX v5 NO DEBIAN 10 BUSTER.
+
+# TIMEZONE
+  - name: Ajustando o timezone do sistema
+    timezone:
+      name: America/Sao_Paulo
+    tags: tz
+
+# IDIOMA
+  - name: Alterando o idioma do sistema
+    command: /bin/localectl set-locale LANG=pt_BR.utf8
+    tags: locale
+
+# TECLADO
+  - name: Alterando o teclado do sistema
+    command: /bin/localectl set-keymap br-abnt2
+    tags: keymap
+
+# NTP
+  - name: Removendo arquivo '/var/lib/dpkg/lock-frontend' se existir
+    command:
+      cmd: rm /var/lib/dpkg/lock
+      removes: /var/lib/dpkg/lock
+    args:
+      warn: no
+    tags: ntp
+
+  - name: Executando 'apt-get update'
+    apt:
+      update_cache: yes
+    tags: ntp
+
+  - name: Instalando o ntp / ntpdate
+    apt:
+      pkg:
+        - ntp
+        - ntpdate
+      state: latest
+    tags: ntp
+
+  - name: Parando o ntp
+    command: systemctl stop ntp
+    tags: ntp
+
+  - name: Copiando o arquivo de configuração do ntp
+    copy: src=/etc/ntp.conf dest=/etc/ntp.conf owner=root mode=0644
+    tags: ntp
+
+  - name: Ajustando a hora e habilitando o ntp
+    shell: ntpdate -v -b a.st1.ntp.br; systemctl enable ntp
+    tags: ntp
+
+  - name: Iniciando o ntp
+    command: systemctl start ntp
+    tags: ntp
+
+# MARIADB
+  - name: Instalando o MariaDB Database Server
+    apt:
+      pkg:
+        - mariadb-server
+        - mariadb-client
+        - python-pymysql
+        - python3-pymysql
+        - python-apt
+        - python3-apt
+      state: latest
+    tags: mdb
+
+  - name: Verificando se o MariaDB está em execução e inicia no boot
+    service:
+      name: mysql
+      state: started
+      enabled: true
+    tags: mdb
+
+  - name: Conectando ao servidor usando 'login_unix_socket'
+    mysql_user:
+      name: root
+      password: "{{ mysql_root_password }}"
+      login_unix_socket: /var/run/mysqld/mysqld.sock
+    ignore_errors: yes
+    tags: mdb
+
+  - name: Removendo contas de usuários 'anônimos' para localhost
+    mysql_user:
+      name: ''
+      host_all: yes
+      state: absent
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+    tags: mdb
+
+  - name: Removendo usuários 'zabbix' para o localhost se existir
+    mysql_user:
+      name: 'zabbix'
+      host: localhost
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+      state: absent
+    tags: mdb
+
+  - name: Removendo o MySQL 'test database'
+    mysql_db:
+      name: 'test'
+      state: absent
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+    tags: mdb
+
+  - name: Altera o plugin de autenticação do usuário 'root' do MariaDB para mysql_native_password
+    shell: mysql -u root -p"{{ mysql_root_password }}" -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
+    tags: mdb
+
+  - name: Privilégios de liberação para usuário 'root'
+    shell: mysql -u root -p"{{ mysql_root_password }}" -e 'FLUSH PRIVILEGES'
+    tags: mdb
+
+  - name: Criando usuário 'zabbix' para o MariaDB
+    mysql_user:
+      name: zabbix
+      password: zabbix
+      priv: '*.*:ALL,GRANT'
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+      state: present
+    tags: mdb
+
+  - name: Criando banco de dados com nome 'zabbix'
+    mysql_db:
+      name: 'zabbix'
+      login_host: localhost
+      login_user: 'root'
+      login_password: '{{ mysql_root_password }}'
+      encoding: utf8
+      collation: utf8_bin
+      state: present
+    tags: mdb
+
+# ZABBIX
+  - name: Adicionando o repositório do Zabbix Server
+    command: "{{ item }}"
+    args:
+      warn: no
+    with_items:
+      - wget https://repo.zabbix.com/zabbix/5.0/debian/pool/main/z/zabbix-release/zabbix-release_5.0-1+buster_all.deb
+      - dpkg -i ./zabbix-release_5.0-1+buster_all.deb
+    tags: zbx
+
+  - name: Executando o update nos repositórios
+    apt:
+      update_cache: yes
+    tags: zbx
+
+  - name: Instalando o Zabbix com frontend e suporte ao banco de dados MariaDB/MySQL
+    apt:
+      pkg:
+      - zabbix-server-mysql
+      - zabbix-frontend-php
+      - zabbix-nginx-conf
+      - zabbix-agent
+      state: latest
+    tags: zbx
+
+  - name: Importando arquivo.sql similar para mariadb/mysql -u <user> -p <password> < arquivo.sql
+    mysql_db:
+      state: import
+      name: zabbix
+      target: /usr/share/doc/zabbix-server-mysql/create.sql.gz
+      login_user: zabbix
+      login_password: "{{ mysql_zabbix_password }}"
+    ignore_errors: yes
+    tags: zbx
+
+# ------------------------------------
+#Listar o schema:
+#sudo mysql -u username -p
+#> use zabbix;
+#> show tables;
+#> quit;
+# ------------------------------------
+
+  - name: Configuração do zabbix /etc/zabbix/zabbix_server.conf e inserindo os dados de conexão do banco
+    replace:
+      path: /etc/zabbix/zabbix_server.conf
+      regexp: '{{ item.De }}'
+      replace: '{{ item.Para }}'
+    with_items:
+      - { De: '^# DBName=', Para: 'DBName=zabbix'}
+      - { De: '^# DBUser=', Para: 'DBUser=zabbix'}
+      - { De: '^# DBPassword=', Para: 'DBPassword=zabbix'}
+    tags: zbx
+
+  - name: Configurando timezone do Nginx para os parâmetros que o Zabbix usa
+    lineinfile:
+      path: /etc/php/7.3/fpm/php.ini
+      regexp: ';date.timezone = Africa/Nairobi'
+      line: 'date.timezone = America/Sao_Paulo'
+    tags: zbx
+
+  - name: Reiniciando o Zabbix Server, Zabbix Agente, Nginx e PHP
+    systemd:
+      name: "{{ item }}"
+      enabled: yes
+      state: restarted
+      daemon_reload: yes
+    with_items:
+      - 'zabbix-server'
+      - 'zabbix-agent'
+      - 'nginx'
+      - 'php7.3-fpm'
+    tags: zbx
+
+  - name: Configurando o Nginx
+    replace:
+      path: /etc/nginx/conf.d/zabbix.conf
+      regexp: '{{ item.De }}'
+      replace: '{{ item.Para }}'
+    with_items:
+      - { De: '^#', Para: ''}
+      - { De: 'example.com', Para: 'debian-zabbix-server'}
+    tags: zbx
+
+  - name: Mudando a porta default do Nginx para não colidir com a do Zabbix
+    replace:
+      path: /etc/nginx/sites-available/default
+      regexp: '{{ item.De }}'
+      replace: '{{ item.Para }}'
+    with_items:
+      - { De: '(80 default_server;)', Para: '82 default_server;'}
+    tags: zbx
+
+  - name: Alterando permissões no diretório raiz do Zabbix
+    file:
+      path: /usr/share/zabbix/
+      state: directory
+      recurse: yes
+      owner: root
+      group: root
+      mode: 0775
+    tags: zbx
+
+  - name: Restartando o Nginx
+    shell: systemctl restart nginx
+    tags: zbx
+...
