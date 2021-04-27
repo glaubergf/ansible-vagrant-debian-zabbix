@@ -4,7 +4,6 @@ O **Zabbix** é um software de nível corporativo ideal para o monitoramento em 
 
 O **Ansible** trabalha com os conceitos de inventário (_lista de máquinas que serão gerenciadas_), playbooks (_comandos ou passo-a-passo a ser executado_) e roles (_modularização do código_). Atualmente o Ansible pertence a **Red Hat**.
 
-
 ## O Host
 
 Para esse projeto local, foi utilizado o Host com o GNU/Linux Debian Buster e realizado a instalação dos seguintes programas (ferramentas) para a execução do projeto:
@@ -14,7 +13,6 @@ Para esse projeto local, foi utilizado o Host com o GNU/Linux Debian Buster e re
 **[Ansible](https://docs.ansible.com/ansible/latest/index.html)** para executar o gerenciamento de automação na máquina alvo, nesse caso a VM com o Debian.
 
 O Artigo que faz referência a este Projeto esta no **[SempreUpdate](https://sempreupdate.com.br/como-instalar-e-configurar-o-zabbix-5-no-debian-10-com-ansible/)**.
-
 
 #### A Automação
 
@@ -37,7 +35,6 @@ Explore as tasks e sinta-se a vontade para melhora-lá.
 Para contribuição de melhorias no código, comente no projeto as devidas aletrações deixando explicadas e assim que for possivel faço o commit e o merge para o código.
 
 Esse foi um projeto inicial de estudo, logo, não foi utilizada as boas práticas.
-
 
 ## Licença
 
