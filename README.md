@@ -25,16 +25,16 @@ alterar o layout do teclado
 instalar, configurar e habilitar o NTP
 instalar, configurar e habilitar o MariaDB
 instalar, configurar e habilitar o Zabbix
-instalar, configurar e habilitar e o Nginx
+instalar, configurar e habilitar o Nginx
 ```
 
-Explore as tasks e sinta-se a vontade para melhora-lá.
+Explore as tasks e sinta-se a vontade para melhorá-la.
 
 ## Contribuindo
 
-Para contribuição de melhorias no código, comente no projeto as devidas aletrações deixando explicadas e assim que for possivel faço o commit e o merge para o código.
-
 Esse foi um projeto inicial de estudo, logo, não foi utilizada as boas práticas.
+
+Para contribuição de melhorias no código, comente no projeto as devidas alterações deixando explicadas e assim que for possível será executado o commit e o merge para o código.
 
 ## Licença
 
