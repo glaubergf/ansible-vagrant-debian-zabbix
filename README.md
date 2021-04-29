@@ -16,7 +16,7 @@ O **Ansible** trabalha com os conceitos de inventário (_lista de máquinas que 
 
 Para esse projeto local, foi utilizado o Host com o Sistema Operacional **[Debian 10 Buster](https://www.debian.org/)** e realizado a instalação dos seguintes programas (ferramentas) para a execução do projeto:
 
-**[Vagrant](https://www.vagrantup.com/docs)** para provisionar a(s) VM(s) (_máquina virtual_) com o **Debian Buster**. Lembrando que o _Vagrantfile_ utilizado nesse projeto está configurado para o uso do provider **[libvirt](https://libvirt.org/) com o gerenciador gráfico **[Virtual Machine Manager](https://virt-manager.org/)**.
+**[Vagrant](https://www.vagrantup.com/docs)** para provisionar a(s) VM(s) (_máquina virtual_) com o **Debian Buster**. Lembrando que o _Vagrantfile_ utilizado nesse projeto está configurado para o uso do provider **[libvirt](https://libvirt.org/)** com o gerenciador gráfico **[Virtual Machine Manager](https://virt-manager.org/)**.
 
 **[Ansible](https://docs.ansible.com/ansible/latest/index.html)** para executar o gerenciamento de automação na máquina alvo, a VM com o Debian.
 
