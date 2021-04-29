@@ -49,7 +49,6 @@ Para contribuição de melhorias no código, comente no projeto as devidas alter
 **GNU General Public License** (_Licença Pública Geral GNU_), **GNU GPL** ou simplesmente **GPL**.
 
 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
-[GPLv3 local](.LICENSE)
 
 ------
 
