@@ -1,10 +1,10 @@
-# ------------------------
-# Projeto: ansible-vagrante-debian-zabbix
-# Descrição: O objetivo desse projeto é provisionar uma ou mais VMs, assim podendo ser 
-#            modificadas as suas variáveis nos parâmetros que atendam as suas espectativas.
-# Autor: Glauber GF (mcnd2)
-# Update: 2021-04-28
-# ------------------------
+---
+Projeto: ansible-vagrante-debian-zabbix
+Descrição: O objetivo desse projeto é provisionar uma ou mais VMs, assim podendo ser 
+           modificadas as suas variáveis nos parâmetros que atendam as suas espectativas.
+Autor: Glauber GF (mcnd2)
+Update: 2021-04-28
+---
 
 # Instalar e Configurar o Zabbix com o Ansible
 
