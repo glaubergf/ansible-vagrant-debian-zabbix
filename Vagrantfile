@@ -1,8 +1,16 @@
-## Script a executar ao iniciar VM.
+#--------------------------------------------------
+# Projeto: ansible-vagrante-debian-zabbix
+# Descrição: O objetivo desse Vagrantfile é provisionar uma ou mais VMs, assim podendo
+#            modificar as variáveis dos parâmetros que atendam as suas espectativas.
+# Autor: Glauber GF (mcnd2)
+# Update: 2021-04-28
+#--------------------------------------------------
+
+## --- Script a executar ao iniciar VM.
 $script = <<-EOF
-## Mudar a senha do usuário Vagrant.
-#echo 'vagrant:zxc147' | sudo chpasswd
-## Atualizar e instalar pacotes no sistema.
+# --- Mudar a senha do usuário Vagrant.
+#echo 'vagrant:zaq1' | sudo chpasswd
+# --- Atualizar e instalar pacotes no sistema.
 apt update
 apt install -y tree neofetch python3-pymysql python-apt
 EOF
@@ -19,7 +27,7 @@ servers=[
 
 	{
 	:vm_network => "enp3s0",
-	:vm_hostname => "node-02",
+	:vm_hostname => "node-01",
 	:vm_ip => "192.168.0.121",
 	:vm_box => "generic/debian10",
 	:vm_cpus => 2,
@@ -28,7 +36,7 @@ servers=[
 
 	{
 	:vm_network => "enp3s0",
-	:vm_hostname => "node-03",
+	:vm_hostname => "node-02",
 	:vm_ip => "192.168.0.122",
 	:vm_box => "generic/debian10",
 	:vm_cpus => 1,
@@ -61,16 +69,16 @@ Vagrant.configure("2") do |config|
 
     config.ssh.insert_key = true
 
-    #config.ssh.private_key_path = ["~/Vagrant/ProjZabbix/AnsibleDebian/id_rsa-DebianDesktop"]
+    #config.ssh.private_key_path = ["~/.ssh/id_rsa"]
 
-    config.vm.post_up_message = "BEM-VINDO AO PROJETO ZABBIX!!!"
+    config.vm.post_up_message = "Bem-vindo ao Vagrant no projeto Zabbix com Ansible!"
 
     #config.vm.provision "shell", inline: $script
 
     #config.vm.provision "shell", path: "script_basic.sh"
 
     #config.vm.provision "shell", run: "always", inline: <<-SHELL
-    #  echo "Seja bem-vindo ao Vangrant!"
+    #  echo "Bem-vindo ao Vangrant no projeto Zabbix com Ansible!"
     #SHELL
 
       end
