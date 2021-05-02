@@ -9,39 +9,39 @@
 ## --- Script a executar ao iniciar VM.
 $script = <<-EOF
 # --- Mudar a senha do usuário Vagrant.
-#echo 'vagrant:zaq1' | sudo chpasswd
+# echo 'vagrant:zaq1' | sudo chpasswd
 # --- Atualizar e instalar pacotes no sistema.
 apt update
-apt install -y tree neofetch python3-pymysql python-apt
+apt install -y tree neofetch python3-pymysql python-apt ssh
 EOF
 
 servers=[
 	{
 	:vm_network => "enp3s0",
-	:vm_hostname => "zabbix-server",
-  :vm_ip => "192.168.0.120",
-	:vm_box => "generic/debian10",
+	:vm_hostname => "vagrant-zabbix-server",
+  :vm_ip => "192.168.121.100",
+	:vm_box => "debian/buster64",
 	:vm_cpus => 4,
 	:vm_mem => 4096,
-	},
+  }#,
 
-	{
-	:vm_network => "enp3s0",
-	:vm_hostname => "node-01",
-	:vm_ip => "192.168.0.121",
-	:vm_box => "generic/debian10",
-	:vm_cpus => 2,
-	:vm_mem => 2048,
-	},
+#	{
+#	:vm_network => "enp3s0",
+#	:vm_hostname => "node-01",
+#	:vm_ip => "192.168.0.121",
+#	:vm_box => "generic/debian10",
+#	:vm_cpus => 2,
+#	:vm_mem => 2048,
+#	},
 
-	{
-	:vm_network => "enp3s0",
-	:vm_hostname => "node-02",
-	:vm_ip => "192.168.0.122",
-	:vm_box => "generic/debian10",
-	:vm_cpus => 1,
-	:vm_mem => 1024,
-	}
+#	{
+#	:vm_network => "enp3s0",
+#	:vm_hostname => "node-02",
+#	:vm_ip => "192.168.0.122",
+#	:vm_box => "generic/debian10",
+#	:vm_cpus => 2,
+#  :vm_mem => 1024,
+#	}
 ]
 
 Vagrant.configure("2") do |config|
@@ -71,14 +71,14 @@ Vagrant.configure("2") do |config|
 
     #config.ssh.private_key_path = ["~/.ssh/id_rsa"]
 
-    config.vm.post_up_message = "Bem-vindo ao Vagrant no projeto Zabbix com Ansible!"
+    config.vm.post_up_message = "Bem-vindo ao Vagrant ZabbixServer!"
 
     #config.vm.provision "shell", inline: $script
 
-    #config.vm.provision "shell", path: "script_basic.sh"
+    config.vm.provision "shell", path: "script_basic.sh"
 
     #config.vm.provision "shell", run: "always", inline: <<-SHELL
-    #  echo "Bem-vindo ao Vangrant no projeto Zabbix com Ansible!"
+    #  echo "Bem-vindo ao Vangrant ZabbixServer!"
     #SHELL
 
       end

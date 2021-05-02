@@ -1,7 +1,5 @@
-[VMs]
-#nome_do_host ansible_host=ip.do.host
-zabbix-server ansible_host=192.168.121.86
+[local]
+#nome-do-host ansible_host=ip.do.host
+vagrant-zabbix-server ansible_host=192.168.121.100
+#192.168.121.100
 
-[VMs:vars]
-#variavel=valor
-ansible_python_interpreter=auto

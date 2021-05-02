@@ -1,9 +1,4 @@
 ---
-#---Acesso ao host do Vagrant
-ansible_ssh_user: vagrant
-ansible_ssh_pass: vagrant
-
-#---Password para o MariaDB
-mysql_root_password: root
-mysql_zabbix_password: zabbix
-...
+#---Acesso ssh ao host do vagrant-zabbix-server
+ansible_ssh_user: mcnd2
+ansible_ssh_pass: mcnd2zaq

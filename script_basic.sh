@@ -5,4 +5,4 @@
 
 # --- Atualizar e instalar pacotes no sistema.
 apt update
-apt install -y tree neofetch python3-pymysql python-apt
+apt install -y tree neofetch python3-pymysql python-apt ssh

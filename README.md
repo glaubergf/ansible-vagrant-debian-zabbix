@@ -3,7 +3,7 @@ Projeto: ansible-vagrante-debian-zabbix
 Descrição: O objetivo desse projeto é provisionar uma ou mais VMs, assim podendo ser 
            modificadas as suas variáveis nos parâmetros que atendam as suas espectativas.
 Autor: Glauber GF (mcnd2)
-Update: 2021-04-28
+Atualização: 2021-05-02
 ---
 
 # Instalar e Configurar o Zabbix com o Ansible
@@ -22,21 +22,63 @@ Para esse projeto local, foi utilizado o Host com o Sistema Operacional **[Debia
 
 O Artigo que faz referência a este Projeto esta no **[SempreUpdate](https://sempreupdate.com.br/como-instalar-e-configurar-o-zabbix-5-no-debian-10-com-ansible/)**.
 
-### A Automação
+## A Automação
 
-Veja a breve descrição das tasks dentro da playbook:
+Veja uma breve descrição da task dentro de cada role:
+
+Na role **config_initial** é executado o ajuste do timezone, alterado o idioma do sistema, alterado o layout do teclado, instalado, configurado e habilitado o ntp.
+
+* tasks:
 
 ```
-ajustar o timezone
-alterar o idioma
-alterar o layout do teclado
-instalar, configurar e habilitar o NTP
-instalar, configurar e habilitar o MariaDB
-instalar, configurar e habilitar o Zabbix
-instalar, configurar e habilitar o Nginx
+Ajustando o timezone do sistema;
+Alterando o idioma do sistema;
+Alterando o layout do teclado do sistema;
+Removendo arquivo '/var/lib/dpkg/lock-frontend' se existir;
+Executando 'apt-get update';
+Instalando o ntp / ntpdate;
+Parando o ntp;
+Copiando o arquivo de configuração do ntp;
+Ajustando a hora e habilitando o ntp;
+Iniciando o ntp.
 ```
 
-Explore as tasks e sinta-se a vontade para melhorá-la.
+Na role **db-mariadb** é executado a instalação e configuração necessária para o banco de dados mariadb.
+
+* tasks:
+
+```
+Instalando o MariaDB Database Server
+Verificando se o MariaDB está em execução e inicia no boot
+Conectando ao servidor usando 'login_unix_socket'
+Removendo contas de usuários 'anônimos' para localhost
+Removendo usuários 'zabbix' para o localhost se existir
+Removendo o MySQL 'test database'
+Altera o plugin de autenticação do usuário 'root' do MariaDB para mysql_native_password
+Privilégios de liberação para usuário 'root'
+Criando usuário 'zabbix' para o MariaDB
+Criando banco de dados com nome 'zabbix'
+```
+
+Na role **mon-zabbix** é executado a adição do repositório zabbix, a instalação e configuração necessárias para que o zabbix carregue sem problemas.
+
+* tasks:
+
+```
+Adicionando o repositório do Zabbix Server
+Executando o update nos repositórios
+Instalando o Zabbix com frontend e suporte ao banco de dados MariaDB/MySQL
+Importando arquivo.sql similar para mariadb/mysql -u <user> -p <password> < arquivo.sql
+Configuração do zabbix /etc/zabbix/zabbix_server.conf e inserindo os dados de conexão do banco
+Configurando timezone do Nginx para os parâmetros que o Zabbix usa
+Reiniciando o Zabbix Server, Zabbix Agente, Nginx e PHP
+Configurando o Nginx
+Mudando a porta default do Nginx para não colidir com a do Zabbix
+Alterando permissões no diretório raiz do Zabbix
+Reiniciando o Nginx
+```
+
+Explore as _tasks_ e sinta-se a vontade para melhorá-la.
 
 ## Contribuindo
 
