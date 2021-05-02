@@ -63,7 +63,7 @@ Vagrant.configure("2") do |config|
         kvm.host = "localhost"
         kvm.uri = "qemu:///system"
 
-      #node.vm.synced_folder ".", "/vagrant", disabled: false
+      node.vm.synced_folder ".", "/ansible-vagrant-zabbix-server", disabled: false
 
     config.vm.box_check_update = false
 
