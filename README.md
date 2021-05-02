@@ -50,16 +50,16 @@ Na role **db-mariadb** é executado a instalação e configuração necessária 
 * tasks:
 
 ```
-Instalando o MariaDB Database Server
-Verificando se o MariaDB está em execução e inicia no boot
-Conectando ao servidor usando 'login_unix_socket'
-Removendo contas de usuários 'anônimos' para localhost
-Removendo usuários 'zabbix' para o localhost se existir
-Removendo o MySQL 'test database'
-Altera o plugin de autenticação do usuário 'root' do MariaDB para mysql_native_password
-Privilégios de liberação para usuário 'root'
-Criando usuário 'zabbix' para o MariaDB
-Criando banco de dados com nome 'zabbix'
+Instalando o MariaDB Database Server;
+Verificando se o MariaDB está em execução e inicia no boot;
+Conectando ao servidor usando 'login_unix_socket';
+Removendo contas de usuários 'anônimos' para localhost;
+Removendo usuários 'zabbix' para o localhost se existir;
+Removendo o MySQL 'test database';
+Altera o plugin de autenticação do usuário 'root' do MariaDB para mysql_native_password;
+Privilégios de liberação para usuário 'root';
+Criando usuário 'zabbix' para o MariaDB;
+Criando banco de dados com nome 'zabbix'.
 ```
 
 Na role **mon-zabbix** é executado a adição do repositório zabbix, a instalação e configuração necessárias para que o zabbix carregue sem problemas.
@@ -67,26 +67,24 @@ Na role **mon-zabbix** é executado a adição do repositório zabbix, a instala
 * tasks:
 
 ```
-Adicionando o repositório do Zabbix Server
-Executando o update nos repositórios
-Instalando o Zabbix com frontend e suporte ao banco de dados MariaDB/MySQL
-Importando arquivo.sql similar para mariadb/mysql -u <user> -p <password> < arquivo.sql
-Configuração do zabbix /etc/zabbix/zabbix_server.conf e inserindo os dados de conexão do banco
-Configurando timezone do Nginx para os parâmetros que o Zabbix usa
-Reiniciando o Zabbix Server, Zabbix Agente, Nginx e PHP
-Configurando o Nginx
-Mudando a porta default do Nginx para não colidir com a do Zabbix
-Alterando permissões no diretório raiz do Zabbix
-Reiniciando o Nginx
+Adicionando o repositório do Zabbix Server;
+Executando o update nos repositórios;
+Instalando o Zabbix com frontend e suporte ao banco de dados MariaDB/MySQL;
+Importando arquivo.sql similar para mariadb/mysql -u <user> -p <password> < arquivo.sql;
+Configuração do zabbix /etc/zabbix/zabbix_server.conf e inserindo os dados de conexão do banco;
+Configurando timezone do Nginx para os parâmetros que o Zabbix usa;
+Reiniciando o Zabbix Server, Zabbix Agente, Nginx e PHP;
+Configurando o Nginx;
+Mudando a porta default do Nginx para não colidir com a do Zabbix;
+Alterando permissões no diretório raiz do Zabbix;
+Reiniciando o Nginx.
 ```
 
 Explore as _tasks_ e sinta-se a vontade para melhorá-la.
 
 ## Contribuindo
 
-Esse foi um projeto inicial de estudo, logo, não foi utilizada das boas práticas.
-
-Para contribuição de melhorias no código, comente no projeto as devidas alterações deixando explicadas e assim que for possível será executado o commit e o merge para a branch main.
+Esse foi um projeto inicial de estudo e para contribuição de melhorias no código, comente ou crie uma issue no projeto com as devidas alterações deixando com a explicação e assim que for possível será executado o commit e o merge para a branch main.
 
 ## Licença
 
