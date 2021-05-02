@@ -6,6 +6,8 @@ Autor: Glauber GF (mcnd2)
 Atualização: 2021-05-02
 ---
 
+![Image](https://github.com/glaubergf/ansible-vagrant-debian-zabbix/blob/main/start_zabbix.png) 
+
 # Instalar e Configurar o Zabbix com o Ansible
 
 O **Zabbix** é um software de nível corporativo ideal para o monitoramento em tempo real de milhões de métricas coletadas de dezenas de milhares de servidores, máquinas virtuais e dispositivos de rede, além de ser de código aberto é também gratuito.
